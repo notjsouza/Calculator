@@ -32,8 +32,8 @@ protected:
 	afx_msg HCURSOR OnQueryDragIcon();
 	DECLARE_MESSAGE_MAP()
 public:
-	double num1;
-	double num2;
+	CString num1;
+	CString num2;
 	int m_calc;
 	CString m_result;
 	afx_msg void OnBnClickedCalculate();

@@ -65,5 +65,14 @@
     <Image Include="res\Calculator.ico">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="res\img1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\img2.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\Title.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

@@ -8,7 +8,6 @@
 #include "CalculatorDlg.h"
 #include "afxdialogex.h"
 #include "CMenuDlg.h"
-#include <string>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -54,10 +53,10 @@ END_MESSAGE_MAP()
 
 CCalculatorDlg::CCalculatorDlg(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_CALCULATOR_DIALOG, pParent)
-	, num1(0)
-	, num2(0)
+	, num1("0")
+	, num2("0")
 	, m_calc(0)
-	, m_result()
+	, m_result("0")
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
@@ -112,6 +111,21 @@ BOOL CCalculatorDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 
 	// TODO: Add extra initialization here
+
+	CStatic* pPicture1 = reinterpret_cast<CStatic*>(GetDlgItem(IDC_PICTURE1));
+	pPicture1->ModifyStyle(0xF, SS_BITMAP, SWP_NOSIZE);
+	HBITMAP hb = (HBITMAP)::LoadImage(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDB_BITMAP1), IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION);
+	pPicture1->SetBitmap(hb);
+
+	CStatic* pPicture2 = reinterpret_cast<CStatic*>(GetDlgItem(IDC_PICTURE2));
+	pPicture2->ModifyStyle(0xF, SS_BITMAP, SWP_NOSIZE);
+	HBITMAP hb1 = (HBITMAP)::LoadImage(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDB_BITMAP2), IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION);
+	pPicture2->SetBitmap(hb1);
+
+	CStatic* pPicture3 = reinterpret_cast<CStatic*>(GetDlgItem(IDC_PICTURE3));
+	pPicture3->ModifyStyle(0xF, SS_BITMAP, SWP_NOSIZE);
+	HBITMAP hb2 = (HBITMAP)::LoadImage(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDB_BITMAP3), IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION);
+	pPicture3->SetBitmap(hb2);
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
@@ -170,28 +184,58 @@ HCURSOR CCalculatorDlg::OnQueryDragIcon()
 void CCalculatorDlg::OnBnClickedCalculate()
 {
 
-	double tempVar = 0;
-	switch (m_calc) {
+	/*
+		RADIO BUTTON CONTROLS
+	*/
 
-	case 0:
-		tempVar = num1 + num2;
-		break;
+	CButton* pRadio1 = reinterpret_cast<CButton*>(GetDlgItem(IDC_RADIO_ADDITION));
+	int radio1 = pRadio1->GetCheck();
 
-	case 1:
-		tempVar = num1 - num2;
-		break;
+	CButton* pRadio2 = reinterpret_cast<CButton*>(GetDlgItem(IDC_RADIO_SUBTRACTION));
+	int radio2 = pRadio2->GetCheck();
 
-	case 2:
-		tempVar = num1 * num2;
-		break;
+	CButton* pRadio3 = reinterpret_cast<CButton*>(GetDlgItem(IDC_RADIO_MULTIPICATION));
+	int radio3 = pRadio3->GetCheck();
 
-	case 3:
-		tempVar = num1 / num2;
-		break;
+	CButton* pRadio4 = reinterpret_cast<CButton*>(GetDlgItem(IDC_RADIO_DIVISION));
+	int radio4 = pRadio4->GetCheck();
 
+	/*
+		EDIT CONTROLS
+	*/
+
+	CString mNum1;
+	CEdit* pNum1 = reinterpret_cast<CEdit*>(GetDlgItem(IDC_NUM1));
+	pNum1->GetWindowText(mNum1);
+
+	CString mNum2;
+	CEdit* pNum2 = reinterpret_cast<CEdit*>(GetDlgItem(IDC_NUM2));
+	pNum2->GetWindowText(mNum2);
+
+	double fNum1 = _ttof(mNum1);
+	double fNum2 = _ttof(mNum2);
+
+	double output = 0;
+
+	if (radio1 == BST_CHECKED) {
+
+		output = fNum1 + fNum2;
+
+	} else if (radio2 == BST_CHECKED) {
+	
+		output = fNum1 - fNum2;
+	
+	} else if (radio3 == BST_CHECKED) {
+	
+		output = fNum1 * fNum2;
+	
+	} else if (radio4 == BST_CHECKED) {
+	
+		output = fNum1 / fNum2;
+	
 	}
 
-	m_result.Format(_T("%f"), tempVar);
+	m_result.Format(_T("%f"), output);
 
 	UpdateData(FALSE);
 
